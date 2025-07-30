@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@font-face {
+  font-family: 'SF UIDisplay';
+  src: url('/fonts/sf-ui-display-medium-58646be638f96') format('woff')
+}
+* {
+  font-family: 'SF UIDisplay', sans-serif;
+}
+.home_hero_bg{
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)) ,url('/images/home/hero_bg.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
