@@ -12,7 +12,7 @@ const Navbar = () => {
 
     return (
         <div className=''>
-            <nav className="!bg-white max-w-[1440px] mx-auto px-4 py-4 flex justify-between items-center h-[100px] fixed top-0 w-full left-0 right-0">
+            <nav className="!bg-white max-w-[1440px] mx-auto px-4 py-4 flex justify-between items-center h-[100px] fixed top-0 w-full left-0 right-0 z-50">
             <Link href="/" className="flex items-center">
                 <Image src="/images/home/logo.svg" alt='logo' width={160} height={26} />
             </Link>

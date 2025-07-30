@@ -55,15 +55,15 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="max-w-[1440px] md:mx-auto mx-8 py-0 md:py-12 relative">
+    <div className="max-w-[1440px] mx-8 md:mx-auto py-0 md:py-12 relative px-4 md:px-12 lg:px-16">
       <div className="relative">
         <Slider {...settings}>
           {testimonialsData.map((testimonial, index) => (
             <div key={index} className="px-2">
-              <div className=" p-6 rounded-[10px] shadow-sm text-start border border-[#EDEDED] pl-[70px] relative">
-                <img src="/images/home/quote.svg" alt="" className='absolute top-[20px] left-[20px]'/>
-                <p className="text-[#727176] mb-4 ">{testimonial.quote}</p>
-                  <p className="font-semibold text-[#000000]">{testimonial.name}</p>
+              <div className="p-6 rounded-[10px] shadow-sm border border-[#EDEDED] md:pl-[70px] relative items-center flex flex-col md:items-start text-center md:text-start">
+                <img src="/images/home/quote.svg" alt="" className='md:absolute top-[20px] left-[20px]'/>
+                <p className="text-[#727176] mb-4">{testimonial.quote}</p>
+                <p className="font-semibold text-[#000000]">{testimonial.name}</p>
                 <p className="text-gray-500 text-sm">{testimonial.title}</p>
               </div>
             </div>
@@ -78,7 +78,7 @@ const SampleNextArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
-      className={className + " absolute right-[-40px] top-1/2 transform -translate-y-1/2"}
+      className={className + " absolute right-[-20px] md:right-[-30px] lg:right-[-40px] top-1/2 transform -translate-y-1/2"}
       style={{ ...style, display: 'block', zIndex: 10 }}
       onClick={onClick}
     >
@@ -91,7 +91,7 @@ const SamplePrevArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
-      className={className + " absolute left-[-40px] top-1/2 transform -translate-y-1/2"}
+      className={className + " absolute left-[-20px] md:left-[-30px] lg:left-[-40px] top-1/2 transform -translate-y-1/2"}
       style={{ ...style, display: 'block', zIndex: 10 }}
       onClick={onClick}
     >

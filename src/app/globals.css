@@ -18,3 +18,7 @@
   background-size: cover;
   
 }
+
+.strategy_bg_custom{
+  background: linear-gradient(to right, #1A2B6C, #3354D2);
+}

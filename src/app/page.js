@@ -2,6 +2,9 @@ import React from 'react'
 import HomeHero from './components/home/HomeHero'
 import Info from './components/home/Info'
 import Testimonials from './components/home/Testimonials'
+import Partners from './components/home/Partners'
+import Features from './components/home/Features'
+import Strategy from './components/home/Strategy'
 
 const page = () => {
   return (
@@ -9,6 +12,9 @@ const page = () => {
       <HomeHero />
       <Info />
       <Testimonials />
+      <Partners />
+      <Features />
+      <Strategy />
     </div>
   )
 }
