@@ -4,9 +4,9 @@ import { MdOutlineRocketLaunch } from "react-icons/md";
 
 const Strategy = () => {
     return (
-        <div className='bg-white'>
+        <div className='bg-white '>
             <div className='max-w-[1440px] mx-auto px-2 min-h-[400px] strategy_bg_custom rounded-[10px] flex flex-col md:flex-row justify-between items-center gap-[30px] py-[30px] md:py-0'>
-                <Image src="/images/home/strategy2.svg" alt='strategy image' width={400} height={326} className='mt-[30px] hidden md:flex' />
+                <Image src="/images/home/strategy2.svg" alt='strategy image' width={400} height={326} className='mt-[30px] hidden lg:flex' />
                 <div className='flex flex-col justify-center items-center text-center gap-7 order-2 md:order-1'>
                     <h3 className='text-3xl md:text-[46px] font-bold text-white'>Ready to Transform Your
                         Real Estate Strategy?</h3>
