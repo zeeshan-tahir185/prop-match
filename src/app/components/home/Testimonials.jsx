@@ -60,9 +60,10 @@ const Testimonials = () => {
         <Slider {...settings}>
           {testimonialsData.map((testimonial, index) => (
             <div key={index} className="px-2">
-              <div className=" p-6 rounded-[10px] shadow-sm text-start border border-[#EDEDED] pl-[70px]">
+              <div className=" p-6 rounded-[10px] shadow-sm text-start border border-[#EDEDED] pl-[70px] relative">
+                <img src="/images/home/quote.svg" alt="" className='absolute top-[20px] left-[20px]'/>
                 <p className="text-[#727176] mb-4 ">{testimonial.quote}</p>
-                <p className="font-semibold">{testimonial.name}</p>
+                  <p className="font-semibold text-[#000000]">{testimonial.name}</p>
                 <p className="text-gray-500 text-sm">{testimonial.title}</p>
               </div>
             </div>
