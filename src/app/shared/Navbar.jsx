@@ -18,7 +18,7 @@ const Navbar = () => {
                 </Link>
 
                 <div className="hidden md:flex items-center space-x-6">
-                    <Link href="/property-analysis" className="">Property Analysis</Link>
+                    <Link href="/dashboard/property-analysis" className="">Property Analysis</Link>
                     <Link href="/lead-ranking" className="">Lead Ranking</Link>
                     <Link href="/pricing" className="">Pricing</Link>
                     <Link href="/resources" className="">Resources</Link>
@@ -42,7 +42,7 @@ const Navbar = () => {
                 {isOpen && (
                     <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-lg z-10">
                         <div className="flex flex-col items-center space-y-4 py-4">
-                            <Link href="/property-analysis" className="" onClick={() => setIsOpen(false)}>Property Analysis</Link>
+                            <Link href="/dashboard/property-analysis" className="" onClick={() => setIsOpen(false)}>Property Analysis</Link>
                             <Link href="/lead-ranking" className="" onClick={() => setIsOpen(false)}>Lead Ranking</Link>
                             <Link href="/pricing" className="" onClick={() => setIsOpen(false)}>Pricing</Link>
                             <Link href="/resources" className="" onClick={() => setIsOpen(false)}>Resources</Link>
