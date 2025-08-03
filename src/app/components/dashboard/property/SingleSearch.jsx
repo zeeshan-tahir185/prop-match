@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from 'react';
 import axios from 'axios';
-import { IoSearchOutline } from "react-icons/io5";
+import { IoSearchOutline, IoCopyOutline, IoCheckmarkCircleOutline } from "react-icons/io5";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const SingleAddressSearch = ({ onStepChange }) => {
     const [isFocused, setIsFocused] = useState(false);
@@ -18,6 +17,20 @@ const SingleAddressSearch = ({ onStepChange }) => {
     const [queryId] = useState("123"); // Example query_id
     const [currentStep, setCurrentStep] = useState(0);
     const [scoreData, setScoreData] = useState(null);
+    const [isCopied, setIsCopied] = useState({ address: false, id: false }); // Track copy state for address and ID
+
+    // Function to copy text to clipboard and toggle icon
+    const copyToClipboard = async (text, type) => {
+        try {
+            await navigator.clipboard.writeText(text);
+            setIsCopied((prev) => ({ ...prev, [type]: true }));
+            setTimeout(() => {
+                setIsCopied((prev) => ({ ...prev, [type]: false }));
+            }, 2000); // Revert to copy icon after 2 seconds
+        } catch (err) {
+            console.error('Failed to copy:', err);
+        }
+    };
 
     const handleAnalyze = async () => {
         if (!address.trim()) {
@@ -114,14 +127,6 @@ const SingleAddressSearch = ({ onStepChange }) => {
         }
     };
 
-    const handleCopyAddress = () => {
-        alert("Address copied to clipboard!");
-    };
-
-    const handleCopyId = () => {
-        alert("Property ID copied to clipboard!");
-    };
-
     const handleClearAndStartNew = () => {
         setAddress("");
         setSuggestions([]);
@@ -197,7 +202,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
                             className={`flex items-start justify-between w-full ${selectedIndex === index ? 'border-l-[2px] border-[#1A2B6C]' : ''}`}
                         >
                             <div onClick={() => setSelectedIndex(index === selectedIndex ? null : index)}
-                                className="text-base text-[#000000] w-full flex justify-between items-center gap-2 p-2 border border-[#EDEDED] hover:bg-gray-100 h-[65px]">
+                                className="text-base text-[#000000] w-full flex justify-between items-center gap-2 p-2 border border-[#EDED] hover:bg-gray-100 h-[65px]">
                                 <div className='w-full flex items-center gap-2'>
                                     <HiOutlineLocationMarker className='text-[rgb(26,43,108)] text-lg font-bold' />
                                     {suggestion.complete_address}
@@ -228,7 +233,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
                             Property Information
                         </h2>
                     </div>
-                    <div className=" p-4 rounded-lg mb-4">
+                    <div className="p-4 rounded-lg mb-4">
                         <div className="flex items-center gap-2">
                             <div className='bg-[#F4F6F8] flex items-center w-[469px] h-[48px] rounded-[5px] px-3'>
                                 <HiOutlineLocationMarker className="text-[#1A2B6C] text-lg font-bold" />
@@ -238,28 +243,36 @@ const SingleAddressSearch = ({ onStepChange }) => {
                                     readOnly
                                     className="flex-1 bg-transparent border-none text-base text-[#000000] focus:outline-none"
                                 />
-                                <CopyToClipboard text={confirmedAddress} onCopy={handleCopyAddress}>
-                                    <button className=" text-[#1A2B6C] px-2 py-2 rounded-md text-sm font-medium ml-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                        </svg>
-                                    </button>
-                                </CopyToClipboard>
+                                <button
+                                    className="text-[#1A2B6C] px-2 py-2 rounded-md text-sm font-medium ml-2"
+                                    onClick={() => copyToClipboard(confirmedAddress, 'address')}
+                                    title="Copy address"
+                                >
+                                    {isCopied.address ? (
+                                        <IoCheckmarkCircleOutline className="h-5 w-5 text-green-500" />
+                                    ) : (
+                                        <IoCopyOutline className="h-5 w-5" />
+                                    )}
+                                </button>
                             </div>
                             <div className='bg-[#F4F6F8] flex items-center w-[392px] h-[48px] rounded-[5px] px-3 justify-between'>
                                 <input
                                     type="text"
                                     value={propertyData.property_id || ""}
                                     readOnly
-                                    className=" bg-transparent text-base text-[#000000] px-2 focus:outline-none"
+                                    className="bg-transparent text-base text-[#000000] px-2 focus:outline-none"
                                 />
-                                <CopyToClipboard text={propertyData.property_id || ""} onCopy={handleCopyId}>
-                                    <button className="text-[#1A2B6C] px-2 py-2 rounded-md text-sm font-medium ml-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                        </svg>
-                                    </button>
-                                </CopyToClipboard>
+                                <button
+                                    className="text-[#1A2B6C] px-2 py-2 rounded-md text-sm font-medium ml-2"
+                                    onClick={() => copyToClipboard(propertyData.property_id || "", 'id')}
+                                    title="Copy property ID"
+                                >
+                                    {isCopied.id ? (
+                                        <IoCheckmarkCircleOutline className="h-5 w-5 text-green-500" />
+                                    ) : (
+                                        <IoCopyOutline className="h-5 w-5" />
+                                    )}
+                                </button>
                             </div>
                             <button
                                 className="w-[245px] h-[48px] bg-[#1A2B6C] text-white rounded-md text-sm font-medium flex items-center justify-center gap-2 ml-2"
