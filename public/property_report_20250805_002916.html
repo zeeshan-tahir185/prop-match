@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropMatch Property Analysis Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4DA6FF 0%, #50C878 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #4DA6FF;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #4DA6FF;
+            padding-bottom: 10px;
+        }
+        
+        .section h3 {
+            color: #50C878;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+        
+        .section h4 {
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .score-card {
+            background: linear-gradient(135deg, #4DA6FF 0%, #50C878 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .score-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .executive-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4DA6FF;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .pricing-card {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .pricing-card.quick-sale {
+            border-color: #FF6B6B;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, white 100%);
+        }
+        
+        .pricing-card.market-pace {
+            border-color: #50C878;
+            background: linear-gradient(135deg, rgba(80, 200, 120, 0.1) 0%, white 100%);
+            border-width: 3px;
+        }
+        
+        .pricing-card.patient-sale {
+            border-color: #FFD700;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, white 100%);
+        }
+        
+        .price-amount {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        .timeline {
+            background: #4DA6FF;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .quick-sale .timeline {
+            background: #FF6B6B;
+        }
+        
+        .patient-sale .timeline {
+            background: #FFD700;
+            color: #333;
+        }
+        
+        .property-specs ul {
+            columns: 2;
+            column-gap: 30px;
+            list-style-position: inside;
+        }
+        
+        .property-specs li {
+            margin-bottom: 8px;
+            break-inside: avoid;
+        }
+        
+        .calculation-box {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+        
+        .listing-status-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #4DA6FF;
+        }
+        
+        .listing-status-card.status-active {
+            border-left-color: #50C878;
+            background: linear-gradient(135deg, rgba(80, 200, 120, 0.1) 0%, #f8f9fa 100%);
+        }
+        
+        .listing-status-card.status-sold {
+            border-left-color: #FF6B6B;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, #f8f9fa 100%);
+        }
+        
+        .listing-status-card.status-pending {
+            border-left-color: #FFD700;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, #f8f9fa 100%);
+        }
+        
+        .status-item {
+            margin: 8px 0;
+            font-size: 1.1em;
+        }
+        
+        .status-note {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 193, 7, 0.2);
+            border-radius: 5px;
+            font-style: italic;
+        }
+        
+        .footer {
+            background: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        
+        /* Markdown content styling */
+        .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .content h1 {
+            color: #4DA6FF;
+            border-bottom: 3px solid #4DA6FF;
+            padding-bottom: 10px;
+        }
+        
+        .content h2 {
+            color: #50C878;
+            border-bottom: 2px solid #50C878;
+            padding-bottom: 8px;
+        }
+        
+        .content h3 {
+            color: #4DA6FF;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        
+        .content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            text-align: justify;
+        }
+        
+        .content ul, .content ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        .content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .content strong {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .content em {
+            font-style: italic;
+            color: #555;
+        }
+        
+        .content code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+        
+        .content pre {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .content pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+        
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .report-table th {
+            background: linear-gradient(135deg, #4DA6FF 0%, #50C878 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .report-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .report-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .report-table tr:hover {
+            background: #e3f2fd;
+        }
+        
+        .content a {
+            color: #4DA6FF;
+            text-decoration: none;
+            border-bottom: 1px dotted #4DA6FF;
+        }
+        
+        .content a:hover {
+            color: #50C878;
+            border-bottom-color: #50C878;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .summary-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+                <div class="container">
+                    <div class="header">
+                        <h1>🏠 PropMatch Analysis Report</h1>
+                        <p>7 Kenrae Road, Toronto, ON, M4G1X9, Canada</p>
+                    </div>
+                    <div class="content">
+                        <h1>Real Estate Market Analysis Report</h1>
+<h2>Property: 7 Kenrae Road, Toronto, ON, M4G1X9, Canada</h2>
+
+<h3>Executive Summary</h3>
+This property at 7 Kenrae Road in Toronto presents a strong investment opportunity, indicated by its high PropMatch score of 8.2/10 and significant estimated sale price appreciation from $1.93M in 2024 to $2.22M in 2025. The local market is characterized by high demand and competitive conditions, with an estimated 31 days on market until sale, suggesting a robust selling environment. The property's desirable location, excellent community scores, and recent upgrades further enhance its market appeal.
+
+<h3>Predicted Sale Score</h3>
+<ul><ol><li><strong>Score</strong>: 8.2/10</li>
+<li><strong>Confidence</strong>: High</li></ol></ul>
+
+<h3>Property Overview</h3>
+<h4>Property Specifications</h4>
+<ul><ol><li><strong>Property Type</strong>: House</li>
+<li><strong>Ownership Type</strong>: Condominium</li>
+<li><strong>Year Built</strong>: 2008</li>
+<li><strong>Bedrooms</strong>: 2 (5 total bedrooms including dens)</li>
+<li><strong>Bathrooms</strong>: 2 full</li>
+<li><strong>Living Space</strong>: 65 sq m (interior)</li>
+<li><strong>Land Area</strong>: 527 sq m</li>
+<li><strong>Basement</strong>: Finished (renovated 2008)</li>
+<li><strong>Exterior Finish</strong>: Brick (renovated 2020)</li>
+<li><strong>Cooling</strong>: Central</li>
+<li><strong>Heating</strong>: Gas furnace</li>
+<li><strong>Parking</strong>: 2 driveway spaces, 0 garage spaces</li>
+<li><strong>Direction Facing</strong>: South</li>
+<li><strong>View Type</strong>: Skyline</li>
+<li><strong>Zoning</strong>: R-CG</li></ol></ul>
+
+<h4>Premium Features & Upgrades</h4>
+<ul><ol><li>Finished basement, renovated in 2008.</li>
+<li>Updated exterior with brick finish, renovated in 2020.</li>
+<li>Kitchen and bathrooms were last renovated in 2008.</li></ol></ul>
+
+<h3>Recommended Pricing Strategy</h3>
+<table class="report-table">
+<thead>
+<tr><th>Strategy</th><th>Timeline</th><th>Recommended Price</th></tr>
+</thead>
+<tbody>
+<tr><td>Quick Sale</td><td>2 Months</td><td>$2,106,094</td></tr>
+<tr><td>Market Pace</td><td>6 Months</td><td>$2,216,941</td></tr>
+<tr><td>Patient Sale</td><td>12 Months</td><td>$2,283,459</td></tr>
+</tbody>
+</table>
+
+<h3>Price Calculation Methodology</h3>
+<ul><ol><li><strong>Formula Description</strong>: The Market Pace price is derived directly from the AI model's estimated sale price for August 5, 2025, which accounts for current market conditions, property features, recent renovations, and historical appreciation trends. This model-driven estimate reflects the property's strong market value per square meter and high demand in the Toronto area.</li>
+<li><strong>Calculation Steps</strong>: The market pace price is based on the AI model's prediction for 2025-08-05:</li></ol></ul>
+  <code>Estimate Sale Price (2025-08-05) = $2,216,941</code>
+<ul><ol><li><strong>Final Price Consideration</strong>: The final price for market pace is <code>$2,216,941</code>.</li></ol></ul>
+                    </div>
+                </div>
+                
+    <div class="footer">
+        <p><strong>PropMatch Professional Property Analysis Report</strong></p>
+        <p>Property: 7 Kenrae Road, Toronto, ON, M4G1X9, Canada</p>
+        <p>Generated: 2025-08-05 00:28:00.456205+00:00</p>
+        <p>This report was generated using advanced AI models and real-time market data analysis.</p>
+        <p>For professional use by licensed real estate professionals.</p>
+    </div>
+</body>
+</html>
