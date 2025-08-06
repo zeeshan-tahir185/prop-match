@@ -12,6 +12,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
     const [isFocused, setIsFocused] = useState(false);
     const [address, setAddress] = useState("");
     const [loading, setLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState("Loading..."); // New state for dynamic loading message
     const [suggestions, setSuggestions] = useState([]);
     const [error, setError] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -21,7 +22,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
     const [queryId] = useState("123"); // Example query_id
     const [currentStep, setCurrentStep] = useState(0);
     const [scoreData, setScoreData] = useState(null);
-    const [isCopied, setIsCopied] = useState({ address: false, id: false }); // Track copy state
+    const [isCopied, setIsCopied] = useState({ address: false, id: false, text: false, pitch: false, email: false }); // Track copy state
     const [selectedYear, setSelectedYear] = useState(""); // Default to "All Years" (empty string)
     const [reportData, setReportData] = useState(null);
     const [outreachData, setOutreachData] = useState(null);
@@ -44,6 +45,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
             return;
         }
         setLoading(true);
+        setLoadingMessage("Searching for addresses..."); // Specific message for address search
         setError(null);
         setSuggestions([]);
         setCurrentStep(1);
@@ -75,6 +77,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
         setPropertyId(currentPropertyId);
         setSuggestions([]);
         setLoading(true);
+        setLoadingMessage("Fetching property details..."); // Specific message for property details
         setError(null);
         try {
             const response = await axios.post(
@@ -99,6 +102,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
     const handleGetPropertyScore = async () => {
         if (!confirmedAddress) return;
         setLoading(true);
+        setLoadingMessage("Getting property details, saving to database, and calculating score..."); // Specific message for score calculation
         setError(null);
         try {
             const response = await axios.post(
@@ -123,6 +127,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
     const handleGenerateReport = async () => {
         if (!confirmedAddress || !scoreData) return;
         setLoading(true);
+        setLoadingMessage("Generating property report..."); // Specific message for report generation
         setError(null);
         try {
             const response = await axios.post(
@@ -147,6 +152,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
     const handleGenerateOutreach = async () => {
         if (!confirmedAddress || !scoreData) return;
         setLoading(true);
+        setLoadingMessage("Generating AI outreach messages..."); // Specific message for outreach generation
         setError(null);
         try {
             const response = await axios.post(
@@ -171,6 +177,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
     const handleGeneratePDF = async () => {
         if (!confirmedAddress || !scoreData) return;
         setLoading(true);
+        setLoadingMessage("Generating PDF report..."); // Specific message for PDF generation
         setError(null);
         try {
             // Placeholder: Generate PDF logic can be added here if needed via API
@@ -251,7 +258,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
                     {loading ? (
                         <div className="text-sm text-[#9A9DA4] mt-1 flex items-center">
                             <div className="w-5 h-5 border-2 border-t-[#1A2B6C] border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin mr-2"></div>
-                            Loading...
+                            {loadingMessage}
                         </div>
                     ) : error ? (
                         <p className="text-sm text-red-500 mt-1">{error}</p>
@@ -315,7 +322,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
                                 {selectedIndex === index && (
                                     <button
                                         className="md:ml-6 bg-[#1A2B6C] text-white w-full h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2"
-                                        onClick={() => { }}
+                                    // onClick={handleValidateAddress}
                                     >
                                         Confirm Address
                                     </button>
@@ -326,7 +333,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
                     <div className='w-full lg:w-[245px] md:hidden mt-3'>
                         <button
                             className="md:ml-6 bg-[#1A2B6C] text-white w-full h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2"
-                            onClick={() => { }}
+                        // onClick={handleValidateAddress}
                         >
                             Confirm Address
                         </button>
@@ -404,9 +411,9 @@ const SingleAddressSearch = ({ onStepChange }) => {
                         </h2>
                     </div>
                     <div className="bg-white py-4 rounded-lg w-full">
-                        <div className="flex items-center gap-2 mb-6 justify-between flex-col md:flex-row w-full">
+                        <div className="flex items-center w-full gap-4 md:gap-2 mb-6 justify-between flex-col md:flex-row flex-wrap">
                             <span className="w-full md:w-[120px] h-[48px] flex justify-center items-center bg-[#28A745] text-white text-base md:text-xl font-bold px-4 py-2 rounded"><span className='text-xl !font-light md:hidden'>PropMatch Score:</span> {Math.round(scoreData.predicted_score)}/10</span>
-                            <div className='flex justify-center items-start md:items-center gap-6 md:gap-2 my-3 md:my-0 flex-col xl:flex-row w-full'>
+                            <div className='flex justify-center items-start md:items-center gap-6 md:gap-2 my-3 md:my-0 flex-col xl:flex-row w-full md:w-auto'>
                                 <p className="text-sm flex items-center "><img src="/images/property/mark.png" className='mr-2 w-[22px] h-[22px]' alt="" /> Analyzed <span className='text-bold'> 52 market </span> indicators</p>
                                 <p className="text-sm flex items-center  "><img src="/images/property/mark.png" className='mr-2 w-[22px] h-[22px]' alt="" /> Compared <span className='text-bold'> 1,847 similar homes</span></p>
                                 <p className="text-sm flex items-center  "><img src="/images/property/mark.png" className='mr-2 w-[22px] h-[22px]' alt="" /> <span className='text-bold'>92%</span> prediction accuracy</p>
@@ -463,10 +470,10 @@ const SingleAddressSearch = ({ onStepChange }) => {
                             Property Information
                         </h2>
                     </div>
-                    <div className="bg-white py-4 rounded-lg ">
+                    <div className="bg-white py-4 rounded-lg w-full">
                         <div className="flex items-center gap-4 md:gap-2 mb-6 justify-between flex-col md:flex-row flex-wrap">
                             <span className="w-full md:w-[120px] h-[48px] flex justify-center items-center bg-[#28A745] text-white text-base md:text-xl font-bold px-4 py-2 rounded"><span className='text-xl !font-light md:hidden'>PropMatch Score:</span> {Math.round(scoreData.predicted_score)}/10</span>
-                            <div className='flex justify-center items-start xl:items-center gap-6 md:gap-2 my-3 md:my-0 flex-col xl:flex-row w-full'>
+                            <div className='flex justify-center items-start xl:items-center gap-6 md:gap-2 my-3 md:my-0 flex-col xl:flex-row w-full md:w-auto'>
                                 <p className="text-sm flex items-center "><img src="/images/property/mark.png" className='mr-2 w-[22px] h-[22px]' alt="" /> Analyzed <span className='text-bold'> 52 market </span> indicators</p>
                                 <p className="text-sm flex items-center  "><img src="/images/property/mark.png" className='mr-2 w-[22px] h-[22px]' alt="" /> Compared <span className='text-bold'> 1,847 similar homes</span></p>
                                 <p className="text-sm flex items-center  "><img src="/images/property/mark.png" className='mr-2 w-[22px] h-[22px]' alt="" /> <span className='text-bold'>92%</span> prediction accuracy</p>
@@ -498,15 +505,17 @@ const SingleAddressSearch = ({ onStepChange }) => {
                         </div>
                         <div className="flex space-x-4 mb-6 flex-col md:flex-row gap-4">
                             <a
-                                href="/public/reports/property_report.pdf" // Updated to local public PDF
-                                download={`property_report_${queryId}.pdf`}
+                                href="/property_report_20250805_002916.html"
+                                download={`property_report_${queryId}.html`}
+                                target="_blank"
                                 className="bg-[#1A2B6C] text-white w-full md:w-[49%] h-[48px] rounded-[5px] text-[15px] font-semibold flex justify-center items-center gap-2"
                             >
                                 Download PDF Report
                             </a>
                             <a
-                                href={reportData.download_url}
                                 target="_blank"
+                                href="/property_report_20250805_002916.html"
+                                download={`property_html_report_${queryId}.html`}
                                 rel="noopener noreferrer"
                                 className="bg-transparent text-black w-full md:w-[49%] h-[48px] border border-[#EDEDED] rounded-[5px] text-[15px] font-semibold flex justify-center items-center gap-2"
                             >
@@ -526,12 +535,12 @@ const SingleAddressSearch = ({ onStepChange }) => {
                     <div className="bg-white py-4 rounded-lg w-full">
                         <div className="flex items-center w-full gap-4 md:gap-2 mb-6 justify-between flex-col md:flex-row flex-wrap">
                             <span className="w-full md:w-[120px] h-[48px] flex justify-center items-center bg-[#28A745] text-white text-base md:text-xl font-bold px-4 py-2 rounded"><span className='text-xl !font-light md:hidden'>PropMatch Score:</span> {Math.round(scoreData.predicted_score)}/10</span>
-                            <div className='flex justify-center items-start md:items-center gap-6 md:gap-2 my-3 md:my-0 flex-col xl:flex-row w-full'>
+                            <div className='flex justify-center items-start md:items-center gap-6 md:gap-2 my-3 md:my-0 flex-col xl:flex-row w-full md:w-auto'>
                                 <p className="text-sm flex items-center "><img src="/images/property/mark.png" className='mr-2 w-[22px] h-[22px]' alt="" /> Analyzed <span className='text-bold'> 52 market </span> indicators</p>
                                 <p className="text-sm flex items-center  "><img src="/images/property/mark.png" className='mr-2 w-[22px] h-[22px]' alt="" /> Compared <span className='text-bold'> 1,847 similar homes</span></p>
                                 <p className="text-sm flex items-center  "><img src="/images/property/mark.png" className='mr-2 w-[22px] h-[22px]' alt="" /> <span className='text-bold'>92%</span> prediction accuracy</p>
                             </div>
-                            <div className="flex space-x-4 flex-col md:flex-row w-full gap-3">
+                            <div className="flex space-x-4 flex-col md:flex-row w-full md:w-auto gap-3">
                                 <button
                                     className="bg-[#1A2B6C] text-white w-full md:w-[160px] h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2"
                                     onClick={handleGenerateReport}

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import SingleAddressSearch from './SingleSearch';
-import LeadListAnalysis from './LeadListAnalysis';;
+import LeadListAnalysis from './LeadListAnalysis';
 
 const PropertyAnalysis = () => {
   const [isActive, setIsActive] = useState('Single Address');
@@ -10,7 +10,11 @@ const PropertyAnalysis = () => {
 
   const handleStepChange = (step) => {
     setCurrentStep(step);
-    if (step > 0) setShowSteps(true); // Show steps from Step 1 onwards
+    if (isActive === 'Single Address' && step > 0) {
+      setShowSteps(true); // Show steps only for Single Address when step > 0
+    } else {
+      setShowSteps(false); // Hide steps for Lead List or step 0
+    }
   };
 
   return (
@@ -43,7 +47,11 @@ const PropertyAnalysis = () => {
           </button>
           <button
             className={`cursor-pointer ${isActive === "Lead List" ? "bg-[#1A2B6C] text-white" : "bg-transparent md:bg-[#F0F2F5] text-black"} w-full lg:w-[49%] h-[42px] md:h-[48px] rounded-[5px] text-sm lg:text-[15px] font-medium`}
-            onClick={() => setIsActive('Lead List')}
+            onClick={() => {
+              setIsActive('Lead List')
+              setShowSteps(false)
+            }
+            }
           >
             Lead List
           </button>
