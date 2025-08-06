@@ -40,13 +40,13 @@ const PropertyAnalysis = () => {
         <h2 className="text-sm lg:text-lg font-semibold text-[#1E2029]">Choose Analysis Type</h2>
         <div className="flex space-x-6 mt-2 justify-between bg-[#F0F2F5] md:bg-transparent p-1 md:p-0 rounded-[5px]">
           <button
-            className={`cursor-pointer ${isActive === "Single Address" ? "bg-[#1A2B6C] text-white" : "bg-transparent md:bg-[#F0F2F5] text-black"}  w-full lg:w-[49%] h-[42px] md:h-[48px] rounded-[5px] text-sm lg:text-[15px] font-medium`}
+            className={`cursor-pointer ${isActive === "Single Address" ? "bg-[#1A2B6C] hover:bg-blue-900 text-white" : "bg-transparent md:bg-[#F0F2F5] hover:bg-gray-200 text-black"}  w-full lg:w-[49%] h-[42px] md:h-[48px] rounded-[5px] text-sm lg:text-[15px] font-medium`}
             onClick={() => setIsActive('Single Address')}
           >
             Single Address
           </button>
           <button
-            className={`cursor-pointer ${isActive === "Lead List" ? "bg-[#1A2B6C] text-white" : "bg-transparent md:bg-[#F0F2F5] text-black"} w-full lg:w-[49%] h-[42px] md:h-[48px] rounded-[5px] text-sm lg:text-[15px] font-medium`}
+            className={`cursor-pointer ${isActive === "Lead List" ? "bg-[#1A2B6C] hover:bg-blue-900 text-white" : "bg-transparent md:bg-[#F0F2F5] hover:bg-gray-200 text-black"} w-full lg:w-[49%] h-[42px] md:h-[48px] rounded-[5px] text-sm lg:text-[15px] font-medium`}
             onClick={() => {
               setIsActive('Lead List')
               setShowSteps(false)

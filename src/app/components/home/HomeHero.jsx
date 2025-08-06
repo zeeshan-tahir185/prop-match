@@ -12,8 +12,8 @@ const HomeHero = () => {
                     Instantly predict which homes will list next.
                 </p>
                 <div className='flex justify-center items-center gap-[25px] flex-col md:flex-row mb-[70px] md:mb-0'>
-                    <button className='text-[15px] font-semibold w-[200px] h-[48px] rounded-[5px] bg-[#1A2B6C] border border-[#1A2B6C]'>Analyze Property</button>
-                    <button className='text-[15px] font-semibold w-[200px] h-[48px] rounded-[5px] border border-white bg-transparent'>Rank Leads</button>
+                    <button className='text-[15px] font-semibold w-[200px] h-[48px] rounded-[5px] bg-[#1A2B6C] cursor-pointer hover:bg-blue-900 border border-[#1A2B6C]'>Analyze Property</button>
+                    <button className='text-[15px] font-semibold w-[200px] h-[48px] rounded-[5px] border border-white cursor-pointer hover:bg-[#1A2B6C] hover:border-0 bg-transparent'>Rank Leads</button>
                 </div>
                 <div className='md:flex flex-col justify-center items-center hidden mb-[30px] gap-2'>
                     <BsMouse className='w-[24px] h-[24px]' />

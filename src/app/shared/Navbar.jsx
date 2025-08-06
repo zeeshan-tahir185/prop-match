@@ -22,12 +22,12 @@ const Navbar = () => {
                     <Link href="/lead-ranking" className="">Lead Ranking</Link>
                     <Link href="/pricing" className="">Pricing</Link>
                     <Link href="/resources" className="">Resources</Link>
-                    <button className="bg-[#1A2B6C] text-white w-[148px] h-[48px] rounded-[5px] flex items-center justify-center">
+                    <button className="bg-[#1A2B6C] cursor-pointer hover:bg-blue-900 text-white w-[148px] h-[48px] rounded-[5px] flex items-center justify-center">
                         <MdOutlineRocketLaunch className="mr-2 w-[22px] h-[22px]" />Get Started
                     </button>
                     <div className="flex gap-1">
                         <IoIosGlobe className="w-[24px] h-[24px]" />
-                        <select className=" bg-white border-none focus:outline-none text-base">
+                        <select className=" bg-white border-none focus:outline-none text-base cursor-pointer">
                             <option value="en">EN</option>
                         </select>
                     </div>
@@ -46,12 +46,12 @@ const Navbar = () => {
                             <Link href="/lead-ranking" className="" onClick={() => setIsOpen(false)}>Lead Ranking</Link>
                             <Link href="/pricing" className="" onClick={() => setIsOpen(false)}>Pricing</Link>
                             <Link href="/resources" className="" onClick={() => setIsOpen(false)}>Resources</Link>
-                            <button className="bg-[#1A2B6C] text-white w-[148px] h-[48px] rounded-[5px] flex items-center justify-center">
+                            <button className="bg-[#1A2B6C] cursor-pointer hover:bg-blue-900 text-white w-[148px] h-[48px] rounded-[5px] flex items-center justify-center">
                                 <MdOutlineRocketLaunch className="mr-2 w-[22px] h-[22px]" />Get Started
                             </button>
                             <div className="flex gap-1">
                                 <IoIosGlobe className="w-[24px] h-[24px]" />
-                                <select className=" bg-white border-none focus:outline-none text-base">
+                                <select className=" bg-white border-none focus:outline-none text-base cursor-pointer">
                                     <option value="en">EN</option>
                                 </select>
                             </div>

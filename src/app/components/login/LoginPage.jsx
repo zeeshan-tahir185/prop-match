@@ -112,9 +112,9 @@ const LoginPage = () => {
                             <input
                                 type="checkbox"
                                 id="remember"
-                                className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                                className="h-4 w-4 text-blue-600 border-gray-300 rounded cursor-pointer"
                             />
-                            <label htmlFor="remember" className="text-sm text-gray-700">
+                            <label htmlFor="remember" className="text-sm text-gray-700 cursor-pointer">
                                 Remember me
                             </label>
                         </div>
@@ -122,7 +122,7 @@ const LoginPage = () => {
                         {/* Log In Button */}
                         <button
                             type="submit"
-                            className="w-full bg-[#1A2B6C] text-white py-2 rounded-md hover:bg-[#142050] transition-colors duration-300 h-[48px]"
+                            className="w-full bg-[#1A2B6C] cursor-pointer text-white py-2 rounded-md hover:bg-[#142050] transition-colors duration-300 h-[48px]"
                         >
                             Log In
                         </button>
@@ -135,7 +135,7 @@ const LoginPage = () => {
                         {/* Google Sign-in */}
                         <button
                             type="button"
-                            className="w-full border border-gray-300 py-2 rounded-md flex items-center justify-center gap-3 hover:bg-gray-50 transition-colors"
+                            className="w-full cursor-pointer border border-gray-300 py-2 rounded-md flex items-center justify-center gap-3 hover:bg-gray-50 transition-colors"
                         >
                             <Image
                                 src="/images/login/google.png"

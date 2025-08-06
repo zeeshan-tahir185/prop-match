@@ -13,8 +13,8 @@ const Footer = () => {
                         Need help? <span className='font-[600]'>support@propmatch.io</span>
                     </p>
                     <div className='flex items-center gap-[20px] justify-center md:justify-start'>
-                        <FaLinkedin className='text-[36px] text-[#1A2B6C]' />
-                        <FaXTwitter className='text-[36px] text-[#1A2B6C]' />
+                        <FaLinkedin className='text-[36px] text-[#1A2B6C] hover:text-black cursor-pointer' />
+                        <FaXTwitter className='text-[36px] text-[#1A2B6C] hover:text-black cursor-pointer' />
 
                     </div>
                 </div>
@@ -26,7 +26,7 @@ const Footer = () => {
                         <Link href="/terms-of-services" className="">Terms of Service</Link>
                         <div className="flex gap-1 justify-center">
                             <IoIosGlobe className="w-[24px] h-[24px]" />
-                            <select className=" bg-white border-none focus:outline-none text-base">
+                            <select className=" bg-white border-none focus:outline-none text-base cursor-pointer">
                                 <option value="en">EN</option>
                             </select>
                         </div>

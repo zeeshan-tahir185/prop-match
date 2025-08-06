@@ -121,7 +121,7 @@ const LeadListAnalysis = ({ onStepChange }) => {
                                     </div>
                                 </div>
                                 <button
-                                    className="text-base font-medium w-[245px] h-[48px] border border-[#EDEDED] bg-white rounded-[5px]"
+                                    className="text-base font-medium cursor-pointer w-[245px] h-[48px] border hover:bg-gray-200 border-[#EDEDED] bg-white rounded-[5px]"
                                     onClick={handleBrowseClick}
                                 >
                                     Browse files
@@ -148,7 +148,7 @@ const LeadListAnalysis = ({ onStepChange }) => {
                                         <p className='text-[#9A9DA4] text-base'>{formatFileSize(file.size)}</p>
                                     </div>
                                     <button
-                                        className="text-[#000000] hover:text-red-500"
+                                        className="text-[#000000] hover:text-red-500 cursor-pointer"
                                         onClick={handleRemoveFile}
                                     >
                                         <RiDeleteBinLine className="text-lg" />
@@ -159,7 +159,7 @@ const LeadListAnalysis = ({ onStepChange }) => {
                         {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
                     </div>
                     <button
-                        className="mt-3 bg-[#1A2B6C] text-white w-full h-[48px] rounded-[5px] text-[15px] font-semibold flex justify-center items-center gap-2"
+                        className="mt-3 bg-[#1A2B6C] cursor-pointer hover:bg-blue-900 text-white w-full h-[48px] rounded-[5px] text-[15px] font-semibold flex justify-center items-center gap-2"
                         onClick={handleRankLeads}
                         disabled={loading || !file}
                     >
@@ -202,14 +202,14 @@ const LeadListAnalysis = ({ onStepChange }) => {
                             </div>
                             <div className="flex space-x-4 flex-col gap-3 w-full md:w-auto">
                                 <button
-                                    className="bg-[#1A2B6C] text-white w-full md:w-[245px] h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2"
+                                    className="bg-[#1A2B6C] cursor-pointer hover:bg-blue-900 text-white w-full md:w-[245px] h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2"
                                     onClick={handleDownload}
                                     disabled={!leadData.ranked_file}
                                 >
                                     Download Ranked CSV
                                 </button>
                                 <button
-                                    className="bg-transparent text-black border border-[#EDEDED] w-full md:w-[245px] h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2"
+                                    className="bg-transparent cursor-pointer hover:bg-gray-200 text-black border border-[#EDEDED] w-full md:w-[245px] h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2"
                                     onClick={handleProcessAnother}
                                 >
                                     Process Another List
