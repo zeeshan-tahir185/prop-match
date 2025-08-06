@@ -26,6 +26,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
     const [selectedYear, setSelectedYear] = useState(""); // Default to "All Years" (empty string)
     const [reportData, setReportData] = useState(null);
     const [outreachData, setOutreachData] = useState(null);
+    const [isAddressConfirmed, setIsAddressConfirmed] = useState(false); // New state to track if address is confirmed
 
     const copyToClipboard = async (text, type) => {
         try {
@@ -66,6 +67,15 @@ const SingleAddressSearch = ({ onStepChange }) => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleConfirmAddress = () => {
+        setIsAddressConfirmed(true); // Hide the Confirm Address button
+    };
+
+    const handleSelectAddress = (index) => {
+        setSelectedIndex(index === selectedIndex ? null : index);
+        setIsAddressConfirmed(false); // Reset confirm state when selecting a new address
     };
 
     const handleValidateAddress = async () => {
@@ -200,6 +210,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
         if (currentStep === 4 || currentStep === 5) {
             setCurrentStep(3);
             onStepChange(3);
+            setIsAddressConfirmed(false); // Reset confirm state when returning to analyze
         } else {
             setAddress("");
             setSuggestions([]);
@@ -213,6 +224,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
             setOutreachData(null);
             setCurrentStep(0);
             onStepChange(0);
+            setIsAddressConfirmed(false); // Reset confirm address state
         }
     };
 
@@ -308,7 +320,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
                             key={index}
                             className={`flex flex-col md:flex-row items-start justify-between !w-full ${selectedIndex === index ? 'border-l-[2px] border-[#1A2B6C]' : ''}`}
                         >
-                            <div onClick={() => setSelectedIndex(index === selectedIndex ? null : index)}
+                            <div onClick={() => handleSelectAddress(index)}
                                 className="text-base text-[#000000] w-full flex flex-col md:flex-row md:justify-between items-center gap-2 p-1 md:p-2 border border-[#EDED] hover:bg-gray-100 min-h-[65px] justify-center">
                                 <div className='w-full flex items-center gap-1 md:gap-2 text-sm md:text-base'>
                                     <HiOutlineLocationMarker className='text-[rgb(26,43,108)] text-lg font-bold' />
@@ -319,10 +331,10 @@ const SingleAddressSearch = ({ onStepChange }) => {
                                 )}
                             </div>
                             <div className='w-full lg:w-[245px] hidden md:flex'>
-                                {selectedIndex === index && (
+                                {selectedIndex === index && !isAddressConfirmed && (
                                     <button
                                         className="md:ml-6 bg-[#1A2B6C] cursor-pointer hover:bg-blue-900 text-white w-full h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2"
-                                    // onClick={handleValidateAddress}
+                                        onClick={handleConfirmAddress}
                                     >
                                         Confirm Address
                                     </button>
@@ -331,12 +343,14 @@ const SingleAddressSearch = ({ onStepChange }) => {
                         </div>
                     ))}
                     <div className='w-full lg:w-[245px] md:hidden mt-3'>
-                        <button
-                            className="md:ml-6 bg-[#1A2B6C] cursor-pointer hover:bg-blue-900 text-white w-full h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2"
-                        // onClick={handleValidateAddress}
-                        >
-                            Confirm Address
-                        </button>
+                        {selectedIndex !== null && !isAddressConfirmed && (
+                            <button
+                                className="md:ml-6 bg-[#1A2B6C] cursor-pointer hover:bg-blue-900 text-white w-full h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2"
+                                onClick={handleConfirmAddress}
+                            >
+                                Confirm Address
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
@@ -387,9 +401,9 @@ const SingleAddressSearch = ({ onStepChange }) => {
                                 >
                                     {isCopied.id ? (
                                         <IoCheckmarkCircleOutline className="h-5 w-5 text-green-500" />
-                                    ) : (
-                                        <IoCopyOutline className="h-5 w-5" />
-                                    )}
+                                        ) : (
+                                            <IoCopyOutline className="h-5 w-5" />
+                                        )}
                                 </button>
                             </div>
                             <button
