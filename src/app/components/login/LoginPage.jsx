@@ -121,12 +121,12 @@ const LoginPage = () => {
                         </div>
 
                         {/* Log In Button */}
-                        <button
+                        <div
                             type="submit"
-                            className="w-full bg-[#1A2B6C] cursor-pointer text-white py-2 rounded-md hover:bg-[#142050] transition-colors duration-300 h-[48px]"
+                            className="w-full flex justify-center items-center bg-[#1A2B6C] cursor-pointer text-white py-2 rounded-md hover:bg-[#142050] transition-colors duration-300 h-[48px]"
                         >
-                           <Link href="/dashboard/property-analysis">Log In</Link> 
-                        </button>
+                           <Link href="/dashboard/property-analysis" className="w-full text-center h-full flex justify-center items-center">Log In</Link> 
+                        </div>
 
                         {/* Divider */}
                         <div className="flex items-center justify-center text-base">
