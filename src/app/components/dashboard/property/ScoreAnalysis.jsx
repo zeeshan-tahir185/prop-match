@@ -34,7 +34,7 @@ const ScoreAnalysis = ({scoreData}) => {
                 Statistical Analysis
             </h2>
             <div className="p-2 md:p-0 bg-[#F8F9FB] min-h-[48px] border border-[#EDEDED] rounded-[12px] mb-4 flex px-3 items-center">
-                <p className="text-base ">AI flagged median days-on-market at 23 (city avg: 28). Seasonally adjusted volatility ±3%.</p>
+                <p className="text-base p-3">{scoreData.statistical_reasoning}</p>
             </div>
         </div>
     )
