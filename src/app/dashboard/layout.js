@@ -58,7 +58,7 @@ export default function DashboardLayout({ children }) {
             </span>
           </div>
           <span className="bg-[#EDEDED] text-base px-3 py-1 rounded-[6px]">
-            Trial: 7 days left
+            Trial: 14 days left
           </span>
           <div className="flex items-center space-x-2 p-2">
             <span className="w-[46px] h-[46px] bg-[#1A2B6C] text-white rounded-full flex items-center justify-center text-sm font-semibold">

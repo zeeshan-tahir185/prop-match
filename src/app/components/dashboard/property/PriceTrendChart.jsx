@@ -46,10 +46,10 @@ const PriceTrendChart = ({ predictions, selectedYear }) => {
                 maintainAspectRatio: false,
                 scales: {
                     y: {
-                        beginAtZero: false,
+                        beginAtZero: true,
                         title: {
                             display: true,
-                            text: '',
+                            text: 'Price ($)',
                             font: { size: 12 }
                         },
                         ticks: {
@@ -59,7 +59,7 @@ const PriceTrendChart = ({ predictions, selectedYear }) => {
                     x: {
                         title: {
                             display: true,
-                            text: '',
+                            text: 'Date(Year)',
                             font: { size: 12 }
                         },
                         ticks: {
@@ -82,7 +82,7 @@ const PriceTrendChart = ({ predictions, selectedYear }) => {
                         }
                     },
                     legend: {
-                        display: false
+                        display: true
                     }
                 },
                 elements: {

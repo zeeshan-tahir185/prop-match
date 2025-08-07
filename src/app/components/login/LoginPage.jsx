@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
@@ -124,7 +125,7 @@ const LoginPage = () => {
                             type="submit"
                             className="w-full bg-[#1A2B6C] cursor-pointer text-white py-2 rounded-md hover:bg-[#142050] transition-colors duration-300 h-[48px]"
                         >
-                            Log In
+                           <Link href="/dashboard/property-analysis">Log In</Link> 
                         </button>
 
                         {/* Divider */}

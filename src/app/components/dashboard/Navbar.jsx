@@ -31,7 +31,7 @@ const Navbar = ({ toggleSidebarMenu, toggleNavbarMenu }) => {
                         </span>
                     </div>
                     <span className="bg-[#EDEDED] text-sm md:text-base px-3 py-1 rounded-[6px]">
-                        Trial: 7 days left
+                        Trial: 14 days left
                     </span>
                     <div className="border-l border-[#EDEDED] h-[46px]"></div>
                     <div className="flex items-center space-x-2 p-2 cursor-pointer">
