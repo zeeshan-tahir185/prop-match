@@ -458,24 +458,15 @@ const SingleAddressSearch = ({ onStepChange }) => {
                             Market Trends
                         </h2>
                         <div className="bg-white rounded-[5px] border border-[#EDEDED] min-h-[144px] w-full  flex flex-col md:flex-row items-center justify-between">
-                            <div className='flex flex-col  h-[100%] p-5 items-center md:items-start w-full sm:w-auto'>
+                            <div className='flex flex-col  h-[100%] p-5 items-center md:items-start w-full sm:w-[250px]'>
                                 <h4 className="text-sm font-semibold ">Property Price Trends</h4>
                                 <span className="text-[26px] text-[#1A2B6C] font-semibold">{yoyPercentage} <span className='text-[#9A9DA4] text-[13px] font-normal'>YoY</span> </span>
-                                <select
-                                    value={selectedYear}
-                                    onChange={(e) => setSelectedYear(e.target.value)}
-                                    className="p-2 border rounded w-full md:w-40"
-                                >
-                                    <option value="">All Years</option>
-                                    {years.map(year => (
-                                        <option key={year} value={year}>{year}</option>
-                                    ))}
-                                </select>
+                               
                             </div>
                             <div className=" border-t md:border-l border-[#EDEDED] w-full">
                                 <PriceTrendChart
                                     predictions={propertyData.predictions[0].predictions}
-                                    selectedYear={selectedYear}
+                                    // selectedYear={selectedYear}
                                 />
                             </div>
                         </div>

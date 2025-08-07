@@ -1,19 +1,37 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-const PriceTrendChart = ({ predictions, selectedYear }) => {
+Chart.register(ChartDataLabels);
+
+const PriceTrendChart = ({ predictions }) => {
     const chartRef = useRef(null);
     const chartInstance = useRef(null);
+
+    // Helper function to format price in millions or thousands
+    const formatPriceInMillions = (value) => {
+        if (value >= 1000000) {
+            return `$${ (value / 1000000).toFixed(2) }M`; // e.g., $2.23M
+        } else if (value >= 1000) {
+            return `$${ (value / 1000).toFixed(0) }K`; // e.g., $950K
+        }
+        return `$${ value.toLocaleString() }`; // e.g., $500
+    };
 
     useEffect(() => {
         const ctx = chartRef.current?.getContext('2d');
         if (!ctx) return;
 
-        // Filter predictions for the selected year
-        const filteredPredictions = selectedYear
-            ? predictions.filter(pred => new Date(pred.date).getFullYear() === parseInt(selectedYear))
-            : predictions;
+        // Extract unique years from predictions
+        const years = [...new Set(predictions.map(pred => new Date(pred.date).getFullYear()))];
+        
+        // Get current year
+        const currentYear = new Date().getFullYear();
+        
+        // Prepare data for the chart
+        const salePrices = predictions.map(pred => pred.estimate_sale_price);
+        const listPrices = predictions.map(pred => pred.estimate_list_price);
 
         if (chartInstance.current) {
             chartInstance.current.destroy(); // Destroy previous chart instance
@@ -22,72 +40,107 @@ const PriceTrendChart = ({ predictions, selectedYear }) => {
         chartInstance.current = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: filteredPredictions.map(pred => pred.date),
-                datasets: [{
-                    label: 'Estimated Sale Price',
-                    data: filteredPredictions.map(pred => pred.estimate_sale_price),
-                    borderColor: '#1A2B6C',
-                    backgroundColor: (context) => {
-                        const ctx = context.chart.ctx;
-                        const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-                        gradient.addColorStop(0, 'rgba(26, 43, 108, 0.2)');
-                        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                        return gradient;
+                labels: years, // Use years for X-axis labels
+                datasets: [
+                    {
+                        label: 'Estimated Sale Price',
+                        data: salePrices,
+                        borderColor: '#1A2B6C', // Dark blue for sale price
+                        backgroundColor: (context) => {
+                            const ctx = context.chart.ctx;
+                            const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+                            gradient.addColorStop(0, 'rgba(26, 43, 108, 0.2)');
+                            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                            return gradient;
+                        },
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        borderWidth: 2
                     },
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
-                    borderWidth: 2
-                }]
+                    {
+                        label: 'Estimated List Price',
+                        data: listPrices,
+                        borderColor: '#16A34A', // Green for list price
+                        backgroundColor: (context) => {
+                            const ctx = context.chart.ctx;
+                            const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+                            gradient.addColorStop(0, 'rgba(22, 163, 74, 0.2)');
+                            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                            return gradient;
+                        },
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        borderWidth: 2
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
                     y: {
-                        beginAtZero: true,
+                        beginAtZero: false,
                         title: {
                             display: true,
                             text: 'Price ($)',
                             font: { size: 12 }
                         },
                         ticks: {
-                            display: false // Hide Y-axis values
+                            display: true, // Show Y-axis values
+                            callback: (value) => formatPriceInMillions(value) // Format as $X.XXM or $XK
                         }
                     },
                     x: {
                         title: {
                             display: true,
-                            text: 'Date(Year)',
+                            text: 'Year',
                             font: { size: 12 }
                         },
                         ticks: {
-                            display: false // Hide X-axis values
+                            display: true // Show X-axis years
                         }
                     }
                 },
                 plugins: {
                     tooltip: {
                         enabled: true,
-                        backgroundColor: '#1A2B6C', // Dark blue background for tooltip
-                        titleColor: '#FFFFFF', // White text for title (not used since title is disabled)
-                        bodyColor: '#FFFFFF', // White text for body (price)
-                        bodyFont: { size: 14 }, // Slightly larger font for readability
-                        padding: 10, // Add padding for better appearance
-                        cornerRadius: 4, // Rounded corners for tooltip
+                        backgroundColor: '#1A2B6C',
+                        titleColor: '#FFFFFF',
+                        bodyColor: '#FFFFFF',
+                        bodyFont: { size: 14 },
+                        padding: 10,
+                        cornerRadius: 4,
                         callbacks: {
-                            title: () => '', // Disable the title (date) in tooltip
-                            label: context => `$${context.raw.toLocaleString()}` // Show only the price
+                            title: () => '', // Disable title in tooltip
+                            label: (context) => {
+                                const label = context.dataset.label || '';
+                                return `${label}: ${formatPriceInMillions(context.raw)}`;
+                            }
                         }
                     },
                     legend: {
-                        display: true
+                        display: true // Show legend to differentiate lines
+                    },
+                    datalabels: {
+                        display: (context) => {
+                            // Show label only for the current year's point
+                            const year = years[context.dataIndex];
+                            return year === currentYear;
+                        },
+                        color: '#1A2B6C',
+                        font: { size: 10 },
+                        formatter: (value) => formatPriceInMillions(value), // Format current year's price as $X.XXM or $XK
+                        align: 'top', // Position above points
+                        offset: 4 // Slight offset for readability
                     }
                 },
                 elements: {
                     point: {
-                        backgroundColor: '#1A2B6C'
+                        backgroundColor: (context) => context.dataset.borderColor // Match point color to line
                     }
                 }
             }
@@ -98,7 +151,7 @@ const PriceTrendChart = ({ predictions, selectedYear }) => {
                 chartInstance.current.destroy();
             }
         };
-    }, [predictions, selectedYear]);
+    }, [predictions]);
 
     return (
         <div className="w-full h-40 mt-2">
