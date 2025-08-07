@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/dashboard/Navbar';
 import Sidebar from '../components/dashboard/Sidebar';
+import Link from 'next/link';
 
 export default function DashboardLayout({ children }) {
   const [isSidebarMenuOpen, setIsSidebarMenuOpen] = useState(false);
@@ -38,7 +39,7 @@ export default function DashboardLayout({ children }) {
         } transition-transform duration-300 ease-in-out lg:hidden`}
       >
         <div className="h-[100px] flex justify-between items-center border-b border-[#EDEDED] px-4">
-          <img src="/images/home/logo.svg" alt="PropMatch AI" className="w-[100px]" />
+          <Link href="/"><img src="/images/home/logo.svg" alt="PropMatch AI" className="w-[100px]" /></Link>
           <button onClick={toggleNavbarMenu} className="lg:hidden">
             <svg className="w-6 h-6 text-[#6B7280]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />

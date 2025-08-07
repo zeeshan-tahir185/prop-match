@@ -369,9 +369,9 @@ const SingleAddressSearch = ({ onStepChange }) => {
                                     <HiOutlineLocationMarker className='text-[rgb(26,43,108)] text-lg font-bold' />
                                     <span className='w-full text-xs md:text-base'>{suggestion.complete_address}</span>
                                 </div>
-                                {(index === 0 || index === 1) && (
+                                {/* {(index === 0 || index === 1) && (
                                     <span className="bg-[#28A745] text-white text-base font-semibold w-[122px] h-[36px] flex justify-center items-center rounded">Exact Match</span>
-                                )}
+                                )} */}
                             </div>
                         </div>
                     ))}
@@ -501,7 +501,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
                                         Generate Outreach
                                     </button>
                                     <button
-                                        className=" text-[#727176] cursor-pointer bg-[#EDEDED] hover:bg-gray-200 w-full md:w-[160px] h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2 click-effect"
+                                        className=" text-[#727176] cursor-pointer bg-[#F0F2F5] hover:bg-gray-200 w-full md:w-[160px] h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2 click-effect"
                                         onClick={handleClearAndStartNew}
                                     >
                                         Back to Analyze
@@ -565,7 +565,7 @@ const SingleAddressSearch = ({ onStepChange }) => {
                                         Generate Report
                                     </button>
                                     <button
-                                        className="text-[#727176] cursor-pointer bg-[#EDEDED] hover:bg-gray-200 w-full md:w-[160px] h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2 click-effect"
+                                        className="text-[#727176] cursor-pointer bg-[#F0F2F5] hover:bg-gray-200 w-full md:w-[160px] h-[48px] rounded-md text-sm font-medium flex justify-center items-center gap-2 click-effect"
                                         onClick={handleClearAndStartNew}
                                     >
                                         Back to Analyze

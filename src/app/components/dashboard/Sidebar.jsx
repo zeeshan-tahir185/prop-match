@@ -20,7 +20,7 @@ const Sidebar = ({ isMobileMenu = false, toggleMobileMenu }) => {
     >
       <div>
         <div className="h-[100px] flex justify-between items-center border-b border-[#EDEDED] px-4">
-          <img src="/images/home/logo.svg" alt="PropMatch AI" className="w-[100px] lg:w-[160px]" />
+          <Link href="/"><img src="/images/home/logo.svg" alt="PropMatch AI" className="w-[100px] lg:w-[160px]" /></Link>
           {isMobileMenu && (
             <button onClick={toggleMobileMenu} className="lg:hidden">
               <svg className="w-6 h-6 text-[#6B7280]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

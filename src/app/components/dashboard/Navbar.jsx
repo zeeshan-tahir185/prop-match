@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const Navbar = ({ toggleSidebarMenu, toggleNavbarMenu }) => {
@@ -9,7 +10,7 @@ const Navbar = ({ toggleSidebarMenu, toggleNavbarMenu }) => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
-                <img src="/images/home/logo.svg" alt="PropMatch AI" className="w-[100px] lg:w-[160px]" />
+                <Link href="/"><img src="/images/home/logo.svg" alt="PropMatch AI" className="w-[100px] lg:w-[160px]" /></Link>
             </div>
             <div className="flex items-center space-x-6 justify-end md:justify-between w-full">
                 <button onClick={toggleNavbarMenu} className="lg:hidden">
