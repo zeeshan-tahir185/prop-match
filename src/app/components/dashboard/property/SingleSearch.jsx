@@ -303,6 +303,11 @@ const SingleAddressSearch = ({ onStepChange }) => {
                             className="w-full h-[48px] pl-10 pr-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#1E40AF]"
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleAnalyze();
+                                }
+                            }}
                         />
                     </div>
                     {loading ? (
